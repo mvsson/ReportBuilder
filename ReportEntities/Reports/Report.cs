@@ -7,6 +7,7 @@ namespace ReportEntities.Reports
 {
     public abstract class Report
     {
+        public Report() { }
         protected Report(int code)
         {
             MonitoringObjects = new List<MonitoringObject>();
@@ -15,9 +16,9 @@ namespace ReportEntities.Reports
         public Guid Id { get; set; }
         [Required]
         [Display(Name = "Код отчёта")]
-        public readonly int Code;
+        public int Code { get; set; }
         [Required]
-        [Display(Name = "Должность")]
+        [Display(Name = "Название отчёта")]
         public string JobTitle { get; set; }
         [Required]
         [Display(Name = "Объекты для наблюдения")]

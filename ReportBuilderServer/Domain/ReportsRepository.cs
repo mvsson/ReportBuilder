@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using ReportEntities;
 using ReportEntities.Enums;
 using ReportEntities.Reports;
@@ -24,21 +25,21 @@ namespace ReportBuilderServer.Domain
             AddReport(new MessagesFromObjectReport()
             {
                 Id = new Guid("95344e38-23d5-462b-a3eb-44d0afc13a2a"),
-                JobTitle = "Младший менеджер",
+                JobTitle = "Ежедневный отчёт о001оа178",
                 MonitoringObjects = new List<MonitoringObject>(){ _monitoringObjects[0] },
                 FirstReportDate = DateTime.Today,//.AddDays(3),
                 Periodicity = Periodicity.OnceADay,
-                SensorsPrefer = new List<Sensor>() { new FuelSensor(), new IgnitionSensor()},
+                SensorsPrefer = new List<Sensor>() { new FuelSensor() {Name = "FuelSensor"}, new IgnitionSensor(){Name = "IgnitionSensor"}},
             });
 
             AddReport(new MoveAndStopReport()
             {
                 Id = new Guid("95344e38-23d5-462b-a3eb-44d0afc13a2a"),
-                JobTitle = "Старший менеджер",
-                MonitoringObjects = new List<MonitoringObject>() { _monitoringObjects[0] },
+                JobTitle = "Ежемесячный маршрутный о002оо47",
+                MonitoringObjects = new List<MonitoringObject>() { _monitoringObjects[1] },
                 FirstReportDate = DateTime.Today.AddDays(20),
-                Periodicity = Periodicity.OnceAWeek,
-                Range = ReportRange.Day
+                Periodicity = Periodicity.OnceAMonth,
+                Range = ReportRange.Month
             });
 
             _reports.ForEach(r =>
@@ -48,7 +49,7 @@ namespace ReportBuilderServer.Domain
             });
         }
 
-        public ICollection<Report> GetReports()
+        public IEnumerable<Report> GetReports()
         {
             return _reports;
         }

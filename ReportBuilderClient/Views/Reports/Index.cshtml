@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Report>
+
+<h3>Доступные отчёты</h3>
+
+<div class="row border-bottom">
+    <div class="col-1">
+        <label class="navbar-text">Код отчёта</label>
+    </div>
+    <div class="col-2">
+        <label class="navbar-text">Название</label>
+    </div>
+    <div class="col">
+        <label class="navbar-text">Объекты мониторинга</label>
+    </div>
+    <div class="col-2">
+        <label class="navbar-text">Дата первого отчёта</label>
+    </div>
+    <div class="col-1">
+        <label class="navbar-text">Частота</label>
+    </div>
+    <div class="col-1">
+        <label class="navbar-text">Период/Датчики</label>
+    </div>
+    <div class="col-2"></div>
+</div>
+<br />
+@if (Model.Any())
+{
+    foreach (var report in Model)//.OrderBy(r => r.FirstReportDate))
+    {
+        <div class="row">
+            
+            <div class="col-1">
+                @report.Code
+            </div>
+            <div class="col-2">
+                @report.JobTitle
+            </div>
+            <div class="col">
+                @foreach (var reportMonitoringObject in report.MonitoringObjects)
+                {
+                    <p>@reportMonitoringObject.Name - </p>
+                }
+            </div>
+            <div class="col-2">
+                @report.FirstReportDate.ToString("dd.MM.yyyy")
+            </div>
+            <div class="col-1">
+                Раз в @((int)report.Periodicity) дней
+            </div>
+            <div class="col-2">
+                @if (report.Code == 1)
+                {
+                    var rep = (MoveAndStopReport)report;
+                    <p>@((int)rep.Range) дней</p>
+                }
+                else
+                {
+                    var rep = (MessagesFromObjectReport)report;
+                    foreach (var sensor in rep.SensorsPrefer)
+                    {
+                        <p>@sensor.Name</p>
+                    }
+                }
+            </div>
+
+            <div class="col-1">
+                <div class="row">
+                    <a class="btn btn-outline-info" title="Открыть" asp-controller="Reports" asp-action="ShowReport"
+                       asp-route-Id="@report.Id">&#128269;</a>
+                    <a class="btn btn-outline-danger" title="Удалить" asp-controller="Reports" asp-action="DeleteReport"
+                       asp-route-Id="@report.Id">&#10008;</a>
+                </div>
+            </div>
+        </div>
+    }
+}

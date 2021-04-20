@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ReportBuilderServer.Domain;
 using ReportEntities.Reports;
 
@@ -10,36 +12,66 @@ namespace ReportBuilderServer.Controllers
     public class ReportsController : Controller
     {
         private readonly ReportsRepository _reports;
-        private const string Token = "1234";
+        private const string TokenEmulator = "1234";
         public ReportsController(ReportsRepository reports)
         {
             _reports = reports;
         }
 
         [HttpGet]
-        public IEnumerable<Report> GetAllReports(string token = "")
+        public ActionResult<string> GetAllReports()
         {
-            if (token != Token)
+            string token = HttpContext.Request.Headers["token"];
+
+            if (token != TokenEmulator)
             {
-                return null;
+                return Unauthorized();
             }
-            return _reports.GetReports();
+
+            var reports = new List<object>();
+            foreach (var report in _reports.GetReports())
+            {
+                switch (report.Code)
+                {
+                    case 1:
+                        reports.Add(report as MoveAndStopReport);
+                        break;
+                    case 2:
+                        reports.Add(report as MessagesFromObjectReport);
+                        break;
+                }
+            }
+            var settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+            var response = JsonConvert.SerializeObject(reports, settings);
+
+            return response;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Report> GetReport(string id, string token = "")
+        public ActionResult<Report> GetReport(string id)
         {
-            if (token != Token)
+            string token = HttpContext.Request.Headers["token"];
+
+            if (token != TokenEmulator)
             {
-                return BadRequest();
+                return Unauthorized();
             }
-            return _reports.GetReportById(id);
+            var report = _reports.GetReportById(id);
+            return report == default ? NotFound() : report;
         }
 
         [HttpPost]
-        public IActionResult PostReport(Report report, string token = "")
+        public ActionResult CreateReport(Report report)
         {
-            if (report == null || token != Token)
+            string token = HttpContext.Request.Headers["token"];
+            if (token != TokenEmulator)
+            {
+                return Unauthorized();
+            }
+            if (report == null)
             {
                 return BadRequest();
             }
@@ -47,14 +79,19 @@ namespace ReportBuilderServer.Controllers
             return Ok();
         }
         [HttpDelete]
-        public IActionResult DeleteReport(string id, string token = "")
+        public ActionResult DeleteReport(string id)
         {
-            if (string.IsNullOrWhiteSpace(id) || token != Token)
+            string token = HttpContext.Request.Headers["token"];
+            if (token != TokenEmulator)
+            {
+                return Unauthorized();
+            }
+            if (string.IsNullOrWhiteSpace(id))
             {
                 return BadRequest();
             }
             _reports.DeleteReport(id);
-            return Ok();
+            return NoContent();
         }
     }
 }
