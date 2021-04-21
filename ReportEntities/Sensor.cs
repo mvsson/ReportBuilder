@@ -1,7 +1,10 @@
-﻿namespace ReportEntities
+﻿using System.Text.Json.Serialization;
+
+namespace ReportEntities
 {
-    public abstract class Sensor
+    public class Sensor
     {
+        [JsonPropertyName("name")]
         public string Name { get; set; }
     }
     public class FuelSensor : Sensor { }

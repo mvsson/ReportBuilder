@@ -13,4 +13,8 @@
     <ProjectReference Include="..\ReportEntities\ReportEntities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

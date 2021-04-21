@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ReportBuilderServer.Services.ReporterService;
 using ReportEntities;
 using ReportEntities.Enums;
 using ReportEntities.Reports;

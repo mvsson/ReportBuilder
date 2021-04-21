@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReportBuilderServer.Domain;
+using ReportEntities.DTO;
 using ReportEntities.Enums;
 using ReportEntities.Reports;
 
@@ -20,41 +21,45 @@ namespace ReportBuilderServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string> GetAllReports()
+        public ActionResult<IEnumerable<ReportDto>> GetAllReports()
         {
             string token = HttpContext.Request.Headers["token"];
-
             if (token != TokenEmulator)
             {
                 return Unauthorized();
             }
 
-            var reports = new List<object>();
-            foreach (var report in _reports.GetReports())
-            {
-                switch (report.Code)
-                {
-                    case ReportCode.MoveAndStop:
-                        reports.Add(report as MoveAndStopReport);
-                        break;
-                    case ReportCode.MessagesFromObject:
-                        reports.Add(report as MessagesFromObjectReport);
-                        break;
-                    default:
-                        continue;
-                }
-            }
-            var settings = new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            };
-            var response = JsonConvert.SerializeObject(reports, settings);
+            //var reports = new List<ReportDTO>();
+            //foreach (var report in _reports.GetReports())
+            //{
+            //    ReportDTO reportDTO;
+            //    switch (report.Code)
+            //    {
+            //        case ReportCode.MoveAndStop:
+            //            var entity = report as MoveAndStopReport; 
+            //            reportDTO = new ReportDTO()
+            //            {
+            //            };
+            //            break;
+            //        case ReportCode.MessagesFromObject:
+            //            break;
+            //        default:
+            //            continue;
+            //    }
+            //    reports.Add(reportDTO);
+            //}
+            //var settings = new JsonSerializerSettings()
+            //{
+            //    TypeNameHandling = TypeNameHandling.Auto
+            //};
+            //var response = JsonConvert.SerializeObject(reports, settings);
 
-            return response;
+            var response = DtoConverter.ConvertReportsToDtos(_reports.GetReports());
+            return new ActionResult<IEnumerable<ReportDto>>(response);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Report> GetReport(string id)
+        public ActionResult<ReportDto> GetReport(string id)
         {
             string token = HttpContext.Request.Headers["token"];
 
@@ -63,11 +68,12 @@ namespace ReportBuilderServer.Controllers
                 return Unauthorized();
             }
             var report = _reports.GetReportById(id);
-            return report == default ? NotFound() : report;
+
+            return report == default ? NotFound() : DtoConverter.ConvertReportToDto(report);
         }
 
         [HttpPost]
-        public ActionResult CreateReport(Report report)
+        public ActionResult CreateReport(ReportDto report)
         {
             string token = HttpContext.Request.Headers["token"];
             if (token != TokenEmulator)
@@ -78,7 +84,7 @@ namespace ReportBuilderServer.Controllers
             {
                 return BadRequest();
             }
-            _reports.AddReport(report);
+            _reports.AddReport(DtoConverter.ConvertDtoToReport(report));
             return Ok();
         }
         [HttpDelete]

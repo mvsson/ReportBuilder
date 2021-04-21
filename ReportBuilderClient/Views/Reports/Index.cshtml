@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Report>
+﻿@using ReportEntities.Enums
+@model IEnumerable<ReportEntities.DTO.ReportDto>
 
 <h3>Доступные отчёты</h3>
 
 <div class="row border-bottom">
-    <div class="col-1">
+    <div class="col-2">
         <label class="navbar-text">Код отчёта</label>
     </div>
     <div class="col-2">
@@ -30,7 +31,7 @@
     {
         <div class="row">
             
-            <div class="col-1">
+            <div class="col-2">
                 @report.Code
             </div>
             <div class="col-2">
@@ -49,18 +50,20 @@
                 Раз в @((int)report.Periodicity) дней
             </div>
             <div class="col-2">
-                @if (report.Code == 1)
+                @if (report.Code == ReportCode.MoveAndStop)
                 {
-                    var rep = (MoveAndStopReport)report;
-                    <p>@((int)rep.Range) дней</p>
+                    <p>@report.Range дней</p>
                 }
-                else
+                else if (report.Code == ReportCode.MessagesFromObject)
                 {
-                    var rep = (MessagesFromObjectReport)report;
-                    foreach (var sensor in rep.SensorsPrefer)
+                    foreach (var sensor in report.SensorsPrefer)
                     {
                         <p>@sensor.Name</p>
                     }
+                }
+                else
+                {
+                    <p>Нет значения</p>
                 }
             </div>
 
