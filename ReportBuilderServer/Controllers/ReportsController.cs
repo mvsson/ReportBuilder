@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReportBuilderServer.Domain;
+using ReportEntities.Enums;
 using ReportEntities.Reports;
 
 namespace ReportBuilderServer.Controllers
@@ -33,12 +34,14 @@ namespace ReportBuilderServer.Controllers
             {
                 switch (report.Code)
                 {
-                    case 1:
+                    case ReportCode.MoveAndStop:
                         reports.Add(report as MoveAndStopReport);
                         break;
-                    case 2:
+                    case ReportCode.MessagesFromObject:
                         reports.Add(report as MessagesFromObjectReport);
                         break;
+                    default:
+                        continue;
                 }
             }
             var settings = new JsonSerializerSettings()

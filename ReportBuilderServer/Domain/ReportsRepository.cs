@@ -41,12 +41,6 @@ namespace ReportBuilderServer.Domain
                 Periodicity = Periodicity.OnceAMonth,
                 Range = ReportRange.Month
             });
-
-            _reports.ForEach(r =>
-            {
-                if (r is IExecute report) 
-                    report.ExecuteHandler += Console.Beep;
-            });
         }
 
         public IEnumerable<Report> GetReports()
