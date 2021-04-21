@@ -13,6 +13,7 @@ namespace ReportBuilderServer.Domain
     {
         private readonly List<Report> _reports;
         private readonly List<MonitoringObject> _monitoringObjects;
+        private readonly List<Sensor> _sensors;
         public ReportsRepository()
         {
             _reports = new List<Report>();
@@ -22,15 +23,21 @@ namespace ReportBuilderServer.Domain
                 new MonitoringObject(){Code = 2, Name = "o002oo47"},
                 new MonitoringObject(){Code = 3, Name = "a100aa777"}
             };
+            _sensors = new List<Sensor>()
+            {
+                new FuelSensor() {Name = "FuelSensor"}, 
+                new IgnitionSensor(){Name = "IgnitionSensor"},
+                new SnockSensor(){Name = "SnockSensor"}
+            };
 
             AddReport(new MessagesFromObjectReport()
             {
                 Id = new Guid("95344e38-23d5-462b-a3eb-44d0afc13a2a"),
                 JobTitle = "Ежедневный отчёт о001оа178",
                 MonitoringObjects = new List<MonitoringObject>(){ _monitoringObjects[0] },
-                FirstReportDate = DateTime.Today,//.AddDays(3),
+                FirstReportDate = DateTime.Today,
                 Periodicity = Periodicity.OnceADay,
-                SensorsPrefer = new List<Sensor>() { new FuelSensor() {Name = "FuelSensor"}, new IgnitionSensor(){Name = "IgnitionSensor"}},
+                SensorsPrefer = new List<Sensor>() { _sensors[1], _sensors[0] },
             });
 
             AddReport(new MoveAndStopReport()
@@ -68,6 +75,11 @@ namespace ReportBuilderServer.Domain
         public ICollection<MonitoringObject> GetMonitoringObjects()
         {
             return _monitoringObjects;
+        }
+
+        public ICollection<Sensor> GetSensors()
+        {
+            return _sensors;
         }
     }
 }

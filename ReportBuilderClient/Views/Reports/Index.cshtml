@@ -1,65 +1,65 @@
-﻿@using ReportEntities.Enums
-@model IEnumerable<ReportEntities.DTO.ReportDto>
+﻿@using System.Linq
+@model IEnumerable<ReportDto>
+@{
+    var columnLabel = "font-weight-bold";
+}
 
 <h3>Доступные отчёты</h3>
-
+<br />
 <div class="row border-bottom">
     <div class="col-2">
-        <label class="navbar-text">Код отчёта</label>
+        <h6 class="@columnLabel">Название</h6>
     </div>
     <div class="col-2">
-        <label class="navbar-text">Название</label>
+        <h6 class="@columnLabel">Тип отчёта</h6>
     </div>
     <div class="col">
-        <label class="navbar-text">Объекты мониторинга</label>
+        <h6 class="@columnLabel">Объекты мониторинга</h6>
+    </div>
+    <div class="col-1">
+        <h6 class="@columnLabel">Первое исполнение</h6>
     </div>
     <div class="col-2">
-        <label class="navbar-text">Дата первого отчёта</label>
+        <h6 class="@columnLabel">Частота</h6>
+    </div>
+    <div class="col-2">
+        <h6 class="@columnLabel">Период/Датчики</h6>
     </div>
     <div class="col-1">
-        <label class="navbar-text">Частота</label>
+        <a asp-controller="Reports" asp-action="SelectType" title="Добавить новый отчёт" class="btn btn-outline-success">&#10133;</a>
     </div>
-    <div class="col-1">
-        <label class="navbar-text">Период/Датчики</label>
-    </div>
-    <div class="col-2"></div>
 </div>
-<br />
+
 @if (Model.Any())
 {
     foreach (var report in Model)//.OrderBy(r => r.FirstReportDate))
     {
-        <div class="row">
+        <br />
+        <div class="row ">
             
-            <div class="col-2">
-                @report.Code
-            </div>
             <div class="col-2">
                 @report.JobTitle
             </div>
-            <div class="col">
-                @foreach (var reportMonitoringObject in report.MonitoringObjects)
-                {
-                    <p>@reportMonitoringObject.Name - </p>
-                }
-            </div>
             <div class="col-2">
-                @report.FirstReportDate.ToString("dd.MM.yyyy")
+                @report.Code
+            </div>
+            <div class="col">
+                <text>@string.Join(", ", report.MonitoringObjects.Select(o => o.Name))</text>
             </div>
             <div class="col-1">
-                Раз в @((int)report.Periodicity) дней
+                @report.FirstReportDate.ToString("dd.MM.yyyy")
+            </div>
+            <div class="col-2">
+                @report.Periodicity
             </div>
             <div class="col-2">
                 @if (report.Code == ReportCode.MoveAndStop)
                 {
-                    <p>@report.Range дней</p>
+                    <label> @report.Range</label>
                 }
                 else if (report.Code == ReportCode.MessagesFromObject)
                 {
-                    foreach (var sensor in report.SensorsPrefer)
-                    {
-                        <p>@sensor.Name</p>
-                    }
+                    <text>@string.Join(", ", report.MonitoringSensors.Select(s => s.Name))</text>
                 }
                 else
                 {

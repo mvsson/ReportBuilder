@@ -50,7 +50,7 @@ namespace ReportEntities.DTO
                         MonitoringObjects = reportCode2.MonitoringObjects,
                         FirstReportDate = reportCode2.FirstReportDate,
                         Periodicity = reportCode2.Periodicity,
-                        SensorsPrefer = reportCode2.SensorsPrefer
+                        MonitoringSensors = reportCode2.SensorsPrefer
                     };
                 default:
                     return null;
@@ -59,33 +59,30 @@ namespace ReportEntities.DTO
 
         public static Report ConvertDtoToReport(ReportDto dto)
         {
-            switch (dto.Code)
+            return dto.Code switch
             {
-                case ReportCode.MoveAndStop:
-                    return new MoveAndStopReport()
-                    {
-                        Id = dto.Id,
-                        Code = dto.Code,
-                        JobTitle = dto.JobTitle,
-                        MonitoringObjects = dto.MonitoringObjects,
-                        FirstReportDate = dto.FirstReportDate,
-                        Periodicity = dto.Periodicity,
-                        Range = dto.Range
-                    };
-                case ReportCode.MessagesFromObject:
-                    return new MessagesFromObjectReport()
-                    {
-                        Id = dto.Id,
-                        Code = dto.Code,
-                        JobTitle = dto.JobTitle,
-                        MonitoringObjects = dto.MonitoringObjects,
-                        FirstReportDate = dto.FirstReportDate,
-                        Periodicity = dto.Periodicity,
-                        SensorsPrefer = dto.SensorsPrefer
-                    };
-                default:
-                    return null;
-            }
+                ReportCode.MoveAndStop => new MoveAndStopReport()
+                {
+                    Id = dto.Id,
+                    Code = dto.Code,
+                    JobTitle = dto.JobTitle,
+                    MonitoringObjects = dto.MonitoringObjects,
+                    FirstReportDate = dto.FirstReportDate,
+                    Periodicity = dto.Periodicity,
+                    Range = dto.Range
+                },
+                ReportCode.MessagesFromObject => new MessagesFromObjectReport()
+                {
+                    Id = dto.Id,
+                    Code = dto.Code,
+                    JobTitle = dto.JobTitle,
+                    MonitoringObjects = dto.MonitoringObjects,
+                    FirstReportDate = dto.FirstReportDate,
+                    Periodicity = dto.Periodicity,
+                    SensorsPrefer = dto.MonitoringSensors
+                },
+                _ => null
+            };
         }
     }
 }

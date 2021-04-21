@@ -9,7 +9,7 @@ using ReportEntities.Reports;
 
 namespace ReportBuilderServer.Controllers
 {
-    [Route("api/reports")]
+    [Route("api/reports/")]
     [ApiController]
     public class ReportsController : Controller
     {
@@ -29,6 +29,7 @@ namespace ReportBuilderServer.Controllers
                 return Unauthorized();
             }
 
+            #region Unsafe transfer
             //var reports = new List<ReportDTO>();
             //foreach (var report in _reports.GetReports())
             //{
@@ -53,6 +54,7 @@ namespace ReportBuilderServer.Controllers
             //    TypeNameHandling = TypeNameHandling.Auto
             //};
             //var response = JsonConvert.SerializeObject(reports, settings);
+            #endregion
 
             var response = DtoConverter.ConvertReportsToDtos(_reports.GetReports());
             return new ActionResult<IEnumerable<ReportDto>>(response);

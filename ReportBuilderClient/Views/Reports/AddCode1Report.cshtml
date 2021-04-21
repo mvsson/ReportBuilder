@@ -1,0 +1,87 @@
+﻿@model NewReportViewModel
+@{
+    var label = "font-weight-bold";
+    var row = "row";
+    var labelColumt = "col-3";
+    var valuerColumn = "col";
+}
+<br />
+<form asp-controller="Reports" asp-action="AddReport" method="post">
+    <span></span>
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Тип отчёта</label>
+        </div>
+        <div class="@valuerColumn">
+            <input asp-for="ReportModel.Code" type="hidden" value="@Model.ReportModel.Code"/>
+            @Model.ReportModel.Code
+        </div>
+    </div>
+    
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Название отчёта</label>
+        </div>
+        <div class="@valuerColumn">
+            <input asp-for="ReportModel.JobTitle" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Объекты мониторинга</label>
+        </div>
+        <div class="@valuerColumn">
+            <select asp-for="ReportModel.MonitoringObjects">
+                @foreach (var monitoringObject in Model.AvailableMonitoringObjects)
+                {
+                    <option value="@monitoringObject">
+                        @monitoringObject.Name
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Дата первого исполнения</label>
+        </div>
+        <div class="@valuerColumn">
+            <input asp-for="ReportModel.FirstReportDate" aria-valuemin="@(DateTime.Today)" value="@(DateTime.Today)" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Частота</label>
+        </div>
+        <div class="@valuerColumn">
+            <select asp-for="ReportModel.Periodicity">
+                @foreach (var periodicity in Enum.GetValues<Periodicity>())
+                {
+                    <option value="@periodicity">
+                        @periodicity
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="@row">
+        <div class="@labelColumt">
+            <label class="@label">Период отчётности</label>
+        </div>
+        <div class="@valuerColumn">
+            <select asp-for="ReportModel.Range">
+                @foreach (var range in Enum.GetValues<ReportRange>())
+                {
+                    <option value="@range">
+                        @range
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-success">Сохранить</button>
+</form>

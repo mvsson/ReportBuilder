@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Новый отчёт";
+    var label = "font-weight-bold";
+    var row = "row border-bottom";
+    var labelColumt = "col-3";
+}
+
+
+<div class="@row input-group">
+    <div class="@labelColumt">
+        <h4 class="@label">Выберите тип отчёта</h4>
+    </div>
+    <div class="col">
+        <form asp-controller="Reports" asp-action="AddReport" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#result" method="get">
+            <select name="reportType" class="form-select">
+                @foreach (var code in Enum.GetValues<ReportCode>())
+                {
+                    <option value="@code">
+                        @code
+                    </option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-primary">Выбрать</button>
+        </form>
+    </div>
+</div>
+
+<div id="result"></div>
+
+
+@section Scripts
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery-unobtrusive-ajax.min.js"></script>
+}

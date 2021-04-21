@@ -1,0 +1,76 @@
+﻿@model ReportDto
+@{
+    var label = "font-weight-bold";
+    var row = "row border-bottom";
+    var labelColumt = "col-3";
+}
+
+
+<div class="@row">
+    <div class="@labelColumt">
+        <h4 class="@label">Отчёт:</h4>
+    </div>
+    <div class="col">
+        <h4>@Model.JobTitle</h4>
+    </div>
+</div>
+
+<div class="@row">
+    <div class="@labelColumt">
+        <label class="@label">Тип отчёта</label>
+    </div>
+    <div class="col">
+        @Model.Code
+    </div>
+</div>
+
+<div class="@row">
+    <div class="@labelColumt">
+        <label class="@label">Объекты мониторинга</label>
+    </div>
+    <div class="col">
+        <text>@string.Join(", ", Model.MonitoringObjects.Select(o => o.Name))</text>
+    </div>
+</div>
+
+<div class="@row">
+    <div class="@labelColumt">
+        <label class="@label">Дата первого исполнения</label>
+    </div>
+    <div class="col">
+        @Model.FirstReportDate.ToString("dd.MM.yyyy")
+    </div>
+</div>
+
+<div class="@row">
+    <div class="@labelColumt">
+        <label class="@label">Частота</label>
+    </div>
+    <div class="col">
+        @(Model.Periodicity)
+    </div>
+</div>
+
+<div class="@row">
+    @if (Model.Code == ReportCode.MoveAndStop)
+    {
+        <div class="@labelColumt">
+            <label class="@label">Период отчётности</label>
+        </div>
+        <p>@Model.Range</p>
+    }
+    else if (Model.Code == ReportCode.MessagesFromObject)
+    {
+        <div class="@labelColumt">
+            <label class="@label">Датчики для мониторинга</label>
+        </div>
+        <div class="col">
+            <text>@string.Join(", ", Model.MonitoringSensors.Select(s => s.Name))</text>
+        </div>
+    }
+    else
+    {
+        <p>Нет значения</p>
+    }
+</div>
+
