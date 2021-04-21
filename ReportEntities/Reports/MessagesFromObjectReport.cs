@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ReportEntities.Enums;
 
 namespace ReportEntities.Reports
 {
-    public class MessagesFromObjectReport : Report, IExecute
+    public class MessagesFromObjectReport : Report
     {
-        public MessagesFromObjectReport() : base(code : 2)
+        public MessagesFromObjectReport() : base(code : ReportCode.MessagesFromObject)
         {
             SensorsPrefer = new List<Sensor>();
         }
@@ -14,20 +15,5 @@ namespace ReportEntities.Reports
         [Required]
         [Display(Name = "Датчики для наблюдения")]
         public ICollection<Sensor> SensorsPrefer { get; set; }
-
-        private Action _executeHandler;
-        public event Action ExecuteHandler
-        {
-            add => _executeHandler += value;
-            remove
-            {
-                if (_executeHandler != null)
-                    _executeHandler -= value;
-            }
-        }
-        public void Execute()
-        {
-            _executeHandler?.Invoke();
-        }
     }
 }

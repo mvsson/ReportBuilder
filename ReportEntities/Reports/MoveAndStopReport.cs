@@ -4,28 +4,13 @@ using ReportEntities.Enums;
 
 namespace ReportEntities.Reports
 {
-    public class MoveAndStopReport : Report, IExecute
+    public class MoveAndStopReport : Report
     {
-        public MoveAndStopReport() : base(code : 1)
+        public MoveAndStopReport() : base(code : ReportCode.MoveAndStop)
         { }
 
         [Required]
         [Display(Name = "Период отчёта")]
-
         public ReportRange Range { get; set; }
-        private Action _executeHandler;
-        public event Action ExecuteHandler
-        {
-            add => _executeHandler += value;
-            remove
-            {
-                if (_executeHandler != null) 
-                    _executeHandler -= value;
-            }
-        }
-        public void Execute()
-        {
-            _executeHandler?.Invoke();
-        }
     }
 }
