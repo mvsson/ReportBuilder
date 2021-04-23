@@ -2,13 +2,15 @@
     ViewBag.Title = "Новый отчёт";
     var label = "font-weight-bold";
     var row = "row border-bottom";
-    var labelColumt = "col-3";
+    var labelColumn = "col-3";
 }
 
 
-<div class="@row input-group">
-    <div class="@labelColumt">
-        <h4 class="@label">Выберите тип отчёта</h4>
+<h4>Создание нового отчёта</h4>
+<br />
+<div class="@row ">
+    <div class="@labelColumn">
+        <h5 class="@label">Выберите тип</h5>
     </div>
     <div class="col">
         <form asp-controller="Reports" asp-action="AddReport" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#result" method="get">
@@ -22,6 +24,11 @@
             </select>
             <button type="submit" class="btn btn-outline-primary">Выбрать</button>
         </form>
+    </div>
+    <div class="col-1">
+        <a asp-controller="Reports" asp-action="Index" title="Вернуться ко всем отчётам" class="btn float-lg-right btn-info">
+            Отчёты
+        </a>
     </div>
 </div>
 

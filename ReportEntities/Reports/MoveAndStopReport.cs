@@ -10,7 +10,6 @@ namespace ReportEntities.Reports
         { }
 
         [Required]
-        [Display(Name = "Период отчёта")]
         public ReportRange Range { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace ReportBuilderClient.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index(string name = null)
+        public IActionResult Index()
         {
             return View("Index");
         }

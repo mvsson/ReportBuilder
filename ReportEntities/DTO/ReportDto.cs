@@ -6,7 +6,7 @@ using ReportEntities.Enums;
 
 namespace ReportEntities.DTO
 {
-    public class ReportDto
+    public class  ReportDto
     {
         [JsonConstructor]
         public ReportDto()
@@ -22,7 +22,7 @@ namespace ReportEntities.DTO
         [Display(Name = "Код отчёта")]
         public ReportCode Code { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введите название отчёта")]
         [JsonPropertyName("jobTitle")]
         [Display(Name = "Название отчёта")]
         public string JobTitle { get; set; }
@@ -30,7 +30,7 @@ namespace ReportEntities.DTO
         [Required]
         [JsonPropertyName("monitoringObjects")]
         [Display(Name = "Объекты для наблюдения")]
-        public ICollection<MonitoringObject> MonitoringObjects { get; set; }
+        public IEnumerable<MonitoringObject> MonitoringObjects { get; set; }
 
         [Required]
         [JsonPropertyName("firstReportDate")]
@@ -46,7 +46,7 @@ namespace ReportEntities.DTO
         [Required]
         [JsonPropertyName("sensorsPrefer")]
         [Display(Name = "Датчики для наблюдения")]
-        public ICollection<Sensor> MonitoringSensors { get; set; }
+        public IEnumerable<Sensor> MonitoringSensors { get; set; }
 
         [Required]
         [JsonPropertyName("range")]

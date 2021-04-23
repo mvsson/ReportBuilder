@@ -16,23 +16,18 @@ namespace ReportEntities.Reports
         public Guid Id { get; set; }
 
         [Required]
-        [Display(Name = "Код отчёта")]
         public ReportCode Code { get; set; }
 
         [Required]
-        [Display(Name = "Название отчёта")]
         public string JobTitle { get; set; }
 
         [Required]
-        [Display(Name = "Объекты для наблюдения")]
-        public ICollection<MonitoringObject> MonitoringObjects { get; set; }
+        public IEnumerable<MonitoringObject> MonitoringObjects { get; set; }
 
         [Required]
-        [Display(Name = "Первая дата отчёта")]
         public DateTime FirstReportDate { get; set; }
 
         [Required]
-        [Display(Name = "Как часто отправлять отчёт?")]
         public Periodicity Periodicity { get; set; }
 
         public void ExecuteReport(IReportHandler handler)

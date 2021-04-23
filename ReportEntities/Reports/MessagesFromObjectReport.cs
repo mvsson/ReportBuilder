@@ -13,7 +13,6 @@ namespace ReportEntities.Reports
         }
 
         [Required]
-        [Display(Name = "Датчики для наблюдения")]
-        public ICollection<Sensor> SensorsPrefer { get; set; }
+        public IEnumerable<Sensor> SensorsPrefer { get; set; }
     }
 }

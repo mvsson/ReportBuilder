@@ -2,12 +2,12 @@
 @{
     var label = "font-weight-bold";
     var row = "row border-bottom";
-    var labelColumt = "col-3";
+    var labelColumn = "col-3";
 }
 
 
 <div class="@row">
-    <div class="@labelColumt">
+    <div class="@labelColumn">
         <h4 class="@label">Отчёт:</h4>
     </div>
     <div class="col">
@@ -16,7 +16,7 @@
 </div>
 
 <div class="@row">
-    <div class="@labelColumt">
+    <div class="@labelColumn">
         <label class="@label">Тип отчёта</label>
     </div>
     <div class="col">
@@ -25,7 +25,7 @@
 </div>
 
 <div class="@row">
-    <div class="@labelColumt">
+    <div class="@labelColumn">
         <label class="@label">Объекты мониторинга</label>
     </div>
     <div class="col">
@@ -34,7 +34,7 @@
 </div>
 
 <div class="@row">
-    <div class="@labelColumt">
+    <div class="@labelColumn">
         <label class="@label">Дата первого исполнения</label>
     </div>
     <div class="col">
@@ -43,7 +43,7 @@
 </div>
 
 <div class="@row">
-    <div class="@labelColumt">
+    <div class="@labelColumn">
         <label class="@label">Частота</label>
     </div>
     <div class="col">
@@ -54,14 +54,14 @@
 <div class="@row">
     @if (Model.Code == ReportCode.MoveAndStop)
     {
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Период отчётности</label>
         </div>
         <p>@Model.Range</p>
     }
     else if (Model.Code == ReportCode.MessagesFromObject)
     {
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Датчики для мониторинга</label>
         </div>
         <div class="col">

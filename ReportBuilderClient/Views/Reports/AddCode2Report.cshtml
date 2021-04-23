@@ -2,61 +2,63 @@
 @{
     var label = "font-weight-bold";
     var row = "row";
-    var labelColumt = "col-3";
-    var valuerColumn = "col";
+    var labelColumn = "col-3";
+    var valueColumn = "col";
 }
 <br />
-<form asp-controller="Reports" asp-action="AddReport" method="post">
-    <span></span>
+<form asp-controller="Reports" asp-action="AddReport" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#result" method="post">
+    <div class="validation-summary-errors" asp-validation-summary="All"></div>
+
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Тип отчёта</label>
         </div>
-        <div class="@valuerColumn">
+        <div class="@valueColumn">
             <input asp-for="ReportModel.Code" type="hidden" value="@Model.ReportModel.Code" />
             @Model.ReportModel.Code
         </div>
     </div>
-    
+
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Название отчёта</label>
         </div>
-        <div class="@valuerColumn">
-            <input asp-for="ReportModel.JobTitle" class="form-control"/>
+        <div class="@valueColumn">
+            <input asp-for="ReportModel.JobTitle" class="form-control" />
         </div>
     </div>
 
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Объекты мониторинга</label>
         </div>
-        <div class="@valuerColumn">
-            <select asp-for="ReportModel.MonitoringObjects">
-                @foreach (var monitoringObject in Model.AvailableMonitoringObjects)
-                {
-                    <option value="@monitoringObject">
-                        @monitoringObject.Name
-                    </option>
-                }
-            </select>
+        <div class="@valueColumn">
+            @for (int i = 0; i < Model.AvailableMonitoringObjects.Count; i++)
+            {
+                <label>
+                    <input type="checkbox" asp-for="AvailableMonitoringObjects[i].IsSelected" value="true" />
+                    <input type="hidden" asp-for="AvailableMonitoringObjects[i].ItemName" value="@(Model.AvailableMonitoringObjects[i].ItemName)" />
+                    @(Model.AvailableMonitoringObjects[i].ItemName)
+                </label>
+            }
         </div>
     </div>
 
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Дата первого исполнения</label>
         </div>
-        <div class="@valuerColumn">
-            <input asp-for="ReportModel.FirstReportDate" value="@(DateTime.Today)" class="form-control" />
+        <div class="@valueColumn">
+            <input asp-for="ReportModel.FirstReportDate" min="@(DateTime.Today.ToString("yyyy-MM-dd"))"
+                   value="@(DateTime.Today.ToString("yyyy-MM-dd"))" class="form-control" />
         </div>
     </div>
 
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Частота</label>
         </div>
-        <div class="@valuerColumn">
+        <div class="@valueColumn">
             <select asp-for="ReportModel.Periodicity">
                 @foreach (var periodicity in Enum.GetValues<Periodicity>())
                 {
@@ -67,23 +69,27 @@
             </select>
         </div>
     </div>
-    
+
     <div class="@row">
-        <div class="@labelColumt">
+        <div class="@labelColumn">
             <label class="@label">Датчики для мониторинга</label>
         </div>
-        <div class="@valuerColumn">
-            <select asp-for="ReportModel.MonitoringSensors">
-                @foreach (var sensor in Model.AvailableSensors)
-                {
-                    <option value="@sensor">
-                        @sensor.Name
-                    </option>
-                }
-            </select>
+        <div class="@valueColumn">
+            @for (int i = 0; i < Model.AvailableSensors.Count; i++)
+            {
+                <label>
+                    <input type="checkbox" asp-for="AvailableSensors[i].IsSelected" value="true" />
+                    <input type="hidden" asp-for="AvailableSensors[i].ItemName" value="@(Model.AvailableSensors[i].ItemName)" />
+                    @(Model.AvailableSensors[i].ItemName)
+                </label>
+            }
         </div>
     </div>
-      
-    <button type="submit" class="btn btn-outline-success">Сохранить</button>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-1">
+            <button type="submit" class="btn float-lg-right btn-success">Сохранить</button>
+        </div>
+    </div>
 </form>
 

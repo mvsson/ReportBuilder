@@ -11,11 +11,11 @@ namespace ReportBuilderServer.Controllers
 {
     [Route("api/reports/entities/")]
     [ApiController]
-    public class AvailableObjController : Controller
+    public class AvailableObjectsController : Controller
     {
         private readonly ReportsRepository _reports;
         private const string TokenEmulator = "1234";
-        public AvailableObjController(ReportsRepository reports)
+        public AvailableObjectsController(ReportsRepository reports)
         {
             _reports = reports;
         }
